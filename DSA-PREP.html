@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DSA Preparation</title>
+<style>
+
+body{
+font-family:Consolas,monospace;
+background:#0b0f19;
+color:#00ffcc;
+text-align:center;
+margin:0;
+}
+
+/* container */
+
+.container{
+width:520px;
+margin:auto;
+margin-top:40px;
+}
+
+/* title */
+
+h1{
+color:#00ffcc;
+text-shadow:0 0 10px #00ffcc;
+letter-spacing:2px;
+}
+
+/* card */
+
+.card{
+background:#111827;
+padding:25px;
+border-radius:12px;
+border:1px solid #00ffcc;
+box-shadow:0 0 15px rgba(0,255,204,0.3);
+text-align:left;
+transition:0.3s;
+}
+
+.card:hover{
+box-shadow:0 0 25px rgba(0,255,204,0.7);
+}
+
+/* links */
+
+a{
+color:#00ccff;
+text-decoration:none;
+}
+
+a:hover{
+text-shadow:0 0 6px #00ccff;
+}
+
+/* concept */
+
+.concept{
+margin-top:10px;
+color:#00ffcc;
+font-weight:bold;
+}
+
+/* input */
+
+input{
+background:#020617;
+border:1px solid #00ffcc;
+color:#00ffcc;
+padding:10px;
+border-radius:6px;
+width:70%;
+}
+
+/* buttons */
+
+button{
+background:#020617;
+color:#00ffcc;
+border:1px solid #00ffcc;
+padding:10px 18px;
+border-radius:6px;
+cursor:pointer;
+margin:8px;
+transition:0.3s;
+}
+
+button:hover{
+background:#00ffcc;
+color:black;
+box-shadow:0 0 10px #00ffcc;
+}
+
+/* completed badge */
+
+.complete{
+background:#00ff88;
+color:black;
+padding:6px 10px;
+border-radius:6px;
+display:inline-block;
+margin-top:10px;
+font-weight:bold;
+}
+
+/* streak */
+
+.streak{
+margin-top:10px;
+color:#00ffcc;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>DSA Preparation</h1>
+
+<div id="login">
+<p>Enter your name</p>
+<input id="username">
+<button onclick="start()">Start</button>
+</div>
+
+<div id="app" style="display:none">
+
+<h3 id="welcome"></h3>
+
+<div class="card" id="card"></div>
+
+<button onclick="prev()">Previous</button>
+<button onclick="next()">Next</button>
+<button onclick="complete()">Mark Complete</button>
+
+<br><br>
+
+</div>
+
+</div>
+
+<script>
+
+const roadmap=[
+
+{day:1,concept:"HashMap",q:[["Two Sum","https://leetcode.com/problems/two-sum/"],["Contains Duplicate","https://leetcode.com/problems/contains-duplicate/"],["Missing Number","https://leetcode.com/problems/missing-number/"]]},
+{day:2,concept:"Two Pointers",q:[["Move Zeroes","https://leetcode.com/problems/move-zeroes/"],["Rotate Array","https://leetcode.com/problems/rotate-array/"],["Search Insert Position","https://leetcode.com/problems/search-insert-position/"]]},
+{day:3,concept:"Prefix Sum",q:[["Intersection of Two Arrays II","https://leetcode.com/problems/intersection-of-two-arrays-ii/"],["Squares of Sorted Array","https://leetcode.com/problems/squares-of-a-sorted-array/"],["Maximum Subarray","https://leetcode.com/problems/maximum-subarray/"]]},
+{day:4,concept:"Array Optimization",q:[["Product of Array Except Self","https://leetcode.com/problems/product-of-array-except-self/"],["Container With Most Water","https://leetcode.com/problems/container-with-most-water/"],["Maximum Product of Three Numbers","https://leetcode.com/problems/maximum-product-of-three-numbers/"]]},
+{day:5,concept:"Sorting + Two Pointer",q:[["3Sum","https://leetcode.com/problems/3sum/"],["3Sum Closest","https://leetcode.com/problems/3sum-closest/"],["Kth Largest Element","https://leetcode.com/problems/kth-largest-element-in-an-array/"]]},
+{day:6,concept:"Heap + Hashing",q:[["Top K Frequent Elements","https://leetcode.com/problems/top-k-frequent-elements/"],["Majority Element","https://leetcode.com/problems/majority-element/"],["Find Pivot Index","https://leetcode.com/problems/find-pivot-index/"]]},
+{day:7,concept:"Revision",q:[["Two Sum","https://leetcode.com/problems/two-sum/"],["Product of Array Except Self","https://leetcode.com/problems/product-of-array-except-self/"],["3Sum","https://leetcode.com/problems/3sum/"]]},
+{day:8,concept:"String Frequency",q:[["Valid Anagram","https://leetcode.com/problems/valid-anagram/"],["Reverse String","https://leetcode.com/problems/reverse-string/"],["First Unique Character","https://leetcode.com/problems/first-unique-character-in-a-string/"]]},
+{day:9,concept:"Stack",q:[["Longest Common Prefix","https://leetcode.com/problems/longest-common-prefix/"],["Backspace String Compare","https://leetcode.com/problems/backspace-string-compare/"],["Valid Parentheses","https://leetcode.com/problems/valid-parentheses/"]]},
+{day:10,concept:"Sliding Window",q:[["Longest Substring Without Repeating Characters","https://leetcode.com/problems/longest-substring-without-repeating-characters/"],["Most Common Word","https://leetcode.com/problems/most-common-word/"],["Group Anagrams","https://leetcode.com/problems/group-anagrams/"]]},
+
+{day:11,concept:"Advanced Sliding Window",q:[["Minimum Window Substring","https://leetcode.com/problems/minimum-window-substring/"],["Decode String","https://leetcode.com/problems/decode-string/"],["Basic Calculator II","https://leetcode.com/problems/basic-calculator-ii/"]]},
+
+{day:12,concept:"String Manipulation",q:[["Implement strStr","https://leetcode.com/problems/implement-strstr/"],["Longest Palindromic Substring","https://leetcode.com/problems/longest-palindromic-substring/"],["Integer to Roman","https://leetcode.com/problems/integer-to-roman/"]]},
+
+{day:13,concept:"Parsing",q:[["Roman to Integer","https://leetcode.com/problems/roman-to-integer/"],["String to Integer","https://leetcode.com/problems/string-to-integer-atoi/"],["Add Strings","https://leetcode.com/problems/add-strings/"]]},
+
+{day:14,concept:"Revision",q:[["Longest Substring Without Repeating Characters","https://leetcode.com/problems/longest-substring-without-repeating-characters/"],["Minimum Window Substring","https://leetcode.com/problems/minimum-window-substring/"],["Group Anagrams","https://leetcode.com/problems/group-anagrams/"]]},
+
+{day:15,concept:"Linked List",q:[["Reverse Linked List","https://leetcode.com/problems/reverse-linked-list/"],["Linked List Cycle","https://leetcode.com/problems/linked-list-cycle/"],["Middle of Linked List","https://leetcode.com/problems/middle-of-the-linked-list/"]]},
+
+{day:16,concept:"Pointer Manipulation",q:[["Merge Two Sorted Lists","https://leetcode.com/problems/merge-two-sorted-lists/"],["Remove Nth Node","https://leetcode.com/problems/remove-nth-node-from-end-of-list/"],["Intersection of Linked Lists","https://leetcode.com/problems/intersection-of-two-linked-lists/"]]},
+
+{day:17,concept:"Linked List Advanced",q:[["Add Two Numbers","https://leetcode.com/problems/add-two-numbers/"],["Copy List with Random Pointer","https://leetcode.com/problems/copy-list-with-random-pointer/"],["Reverse Nodes K Group","https://leetcode.com/problems/reverse-nodes-in-k-group/"]]},
+
+{day:18,concept:"Tree DFS",q:[["Maximum Depth Binary Tree","https://leetcode.com/problems/maximum-depth-of-binary-tree/"],["Same Tree","https://leetcode.com/problems/same-tree/"],["Symmetric Tree","https://leetcode.com/problems/symmetric-tree/"]]},
+
+{day:19,concept:"Tree BFS",q:[["Binary Tree Level Order","https://leetcode.com/problems/binary-tree-level-order-traversal/"],["Diameter Binary Tree","https://leetcode.com/problems/diameter-of-binary-tree/"],["Right Side View","https://leetcode.com/problems/binary-tree-right-side-view/"]]},
+
+{day:20,concept:"BST",q:[["Lowest Common Ancestor","https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"],["Validate BST","https://leetcode.com/problems/validate-binary-search-tree/"],["Kth Smallest BST","https://leetcode.com/problems/kth-smallest-element-in-a-bst/"]]},
+
+{day:21,concept:"Tree Revision",q:[["Reverse Linked List","https://leetcode.com/problems/reverse-linked-list/"],["Add Two Numbers","https://leetcode.com/problems/add-two-numbers/"],["Binary Tree Level Order","https://leetcode.com/problems/binary-tree-level-order-traversal/"]]},
+
+{day:22,concept:"Graph DFS",q:[["Number of Islands","https://leetcode.com/problems/number-of-islands/"],["Flood Fill","https://leetcode.com/problems/flood-fill/"],["Max Area of Island","https://leetcode.com/problems/max-area-of-island/"]]},
+
+{day:23,concept:"Topological Sort",q:[["Course Schedule","https://leetcode.com/problems/course-schedule/"],["Course Schedule II","https://leetcode.com/problems/course-schedule-ii/"],["Graph Valid Tree","https://leetcode.com/problems/graph-valid-tree/"]]},
+
+{day:24,concept:"Graph BFS",q:[["Word Ladder","https://leetcode.com/problems/word-ladder/"],["Word Ladder II","https://leetcode.com/problems/word-ladder-ii/"],["Pacific Atlantic Water Flow","https://leetcode.com/problems/pacific-atlantic-water-flow/"]]},
+
+{day:25,concept:"DP Basics",q:[["Climbing Stairs","https://leetcode.com/problems/climbing-stairs/"],["House Robber","https://leetcode.com/problems/house-robber/"],["House Robber III","https://leetcode.com/problems/house-robber-iii/"]]},
+
+{day:26,concept:"DP Optimization",q:[["Coin Change","https://leetcode.com/problems/coin-change/"],["Longest Increasing Subsequence","https://leetcode.com/problems/longest-increasing-subsequence/"],["Unique Paths","https://leetcode.com/problems/unique-paths/"]]},
+
+{day:27,concept:"DP + Strings",q:[["Word Break","https://leetcode.com/problems/word-break/"],["Decode Ways","https://leetcode.com/problems/decode-ways/"],["Perfect Squares","https://leetcode.com/problems/perfect-squares/"]]},
+
+{day:28,concept:"System Design",q:[["LRU Cache","https://leetcode.com/problems/lru-cache/"],["LFU Cache","https://leetcode.com/problems/lfu-cache/"]]},
+
+{day:29,concept:"Heap",q:[["Sliding Window Maximum","https://leetcode.com/problems/sliding-window-maximum/"],["Merge K Sorted Lists","https://leetcode.com/problems/merge-k-sorted-lists/"],["K Closest Points","https://leetcode.com/problems/k-closest-points-to-origin/"]]},
+
+{day:30,concept:"Final Revision",q:[["Two Sum","https://leetcode.com/problems/two-sum/"],["Longest Substring Without Repeating Characters","https://leetcode.com/problems/longest-substring-without-repeating-characters/"],["Number of Islands","https://leetcode.com/problems/number-of-islands/"]]}
+];
+
+let user="";
+let index=0;
+let progress=0;
+
+function start(){
+
+user=document.getElementById("username").value;
+
+let saved=JSON.parse(localStorage.getItem("dsa_"+user));
+
+if(saved)progress=saved;
+
+document.getElementById("login").style.display="none";
+document.getElementById("app").style.display="block";
+
+document.getElementById("welcome").innerText="Welcome, "+user;
+
+render();
+}
+
+function render(){
+
+let d=roadmap[index];
+
+let html=`<h2>Day ${d.day}</h2>`;
+
+d.q.forEach(q=>{
+html+=`<p><a href="${q[1]}" target="_blank">${q[0]}</a></p>`;
+});
+
+html+=`<p><b>Concept:</b> ${d.concept}</p>`;
+
+if(index<progress)html+=`<div class="complete">Completed</div>`;
+
+document.getElementById("card").innerHTML=html;
+}
+
+function next(){
+if(index<roadmap.length-1){
+index++;
+render();
+}
+}
+
+function prev(){
+if(index>0){
+index--;
+render();
+}
+}
+
+function complete(){
+
+if(index===progress){
+progress++;
+localStorage.setItem("dsa_"+user,JSON.stringify(progress));
+render();
+}
+
+}
+
+</script>
+
+</body>
+</html>
